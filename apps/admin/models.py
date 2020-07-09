@@ -26,5 +26,5 @@ class Users(db.Model):
     def password(self,raw_password):
         self._password = generate_password_hash(raw_password)
     def check_password(self,raw_password):
-        result = check_password_hash(self.password,raw_password)
+        result = check_password_hash(self._password,raw_password)
         return result

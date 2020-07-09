@@ -41,8 +41,8 @@
       </div>
       <div class="row cl">
         <div class="formControls col-xs-8 col-xs-offset-3">
-          <input class="input-text size-L" type="text" placeholder="验证码" onblur="if(this.value==''){this.value='验证码:'}" onclick="if(this.value=='验证码:'){this.value='';}" value="验证码:" style="width:150px;">
-          <img src=""><a id="kanbuq" href="javascript:;">看不清，换一张</a>
+          <input class="input-text size-L" name="captcha" type="text" placeholder="验证码" onblur="if(this.value==''){this.value='验证码:'}" onclick="if(this.value=='验证码:'){this.value='';}" value="验证码:" style="width:150px;">
+          <img src="{{ url_for('admin.get_code') }}" onclick="ajax1()"><a id="kanbuq" href="javascript:;">看不清，换一张</a>
         </div>
       </div>
       <div class="row cl">
@@ -57,7 +57,7 @@
           <input name="" type="submit" class="btn btn-success radius size-L" value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;">
           <input name="" type="reset" class="btn btn-default radius size-L" value="&nbsp;取&nbsp;&nbsp;&nbsp;&nbsp;消&nbsp;">
             {% if message %}
-            <p style="color: red;margin-top: 10px;">{{ message }}</p>
+                <p style="color: red;margin-top: 8px;">{{ message }}</p>
             {% endif %}
         </div>
       </div>
@@ -67,5 +67,18 @@
 <div class="footer">Copyright 犀牛互动 All Rights Reversed</div>
 <script type="text/javascript" src="{{ url_for('static',filename='static/lib/jquery/1.9.1/jquery.min.js')}}"></script>
 <script type="text/javascript" src="{{ url_for('static',filename='static/h-ui/js/H-ui.min.js')}}"></script>
+<script>
+    function ajax1() {
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET','{{ url_for('admin.get_code') }}',true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4) {
+                console.log(xhr.responseText);#}
+                $('#code').attr('src','{{ url_for('admin.get_code') }}?' + Math.random())
+            }
+        };
+        xhr.send();
+    }
+</script>
 </body>
 </html>
