@@ -21,13 +21,12 @@ def login():
             captcha = request.form.get('captcha')
             user = request.form.get('username')
             pwd = request.form.get('password')
-            online = request.form.get('online')
             mc = memcache.Client(['192.168.75.60:11220'],debug=True)
             if mc.get('image'):
-                captcha_code = mc.get('image').lowwe()
+                captcha_code = mc.get('image').lower()
             else:
-                captcha_code = session.get('image').lower()
-            if captcha_code != captcha.lowwe():
+                captcha_code = str(session.get('image')).lower()
+            if captcha_code != captcha.lower():
                 return render_template('login.html',message = '验证码错误!')
             else:
                 users = Users.query.filter_by(username = user).first()
@@ -61,9 +60,9 @@ def index():
 
 @bp.route('/code')
 def get_code():
-    code_img,strs = create_validate_code()
+    code_img, strs = create_validate_code()
     buf = BytesIO()
-    code_img.save(buf,'JPEG',quality=70)
+    code_img.save(buf,'JPEG')
     buf_str = buf.getvalue()
     response = make_response(buf_str)
     response.headers['Content-Type'] = 'image/jpeg'

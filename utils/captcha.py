@@ -15,7 +15,7 @@ def create_validate_code(
         font_type = 'STZHONGS.TTF',
         length = 4,
         draw_points = True,
-        point_chance = 2):
+        point_chance = 4):
     width,height = size
     img = Image.new(mode,size,bg_color)
     draw = ImageDraw.Draw(img)
@@ -26,21 +26,21 @@ def create_validate_code(
 
     #绘制干扰点
     def create_points():
-        chance = min(50,max(0,int(point_chance)))
         for w in range(width):
             for h in range(height):
                 tmp = random.randint(0,50)
-                if tmp > 50 - chance:
+                if tmp > 50 - point_chance:
                     draw.point((w,h),fill=(0,0,0))
 
     #绘制验证码字符
     def create_str():
-        c_chars = get_chars()
-        strs = '%s' % ''.join(c_chars)
+        ch_chars = get_chars()
+        strs = '%s' % ''.join(ch_chars)
         font = ImageFont.truetype(font_type,font_size)
         font_width,font_height = font.getsize(strs)
         draw.text(((width - font_width) / 3,(height - font_height) / 4),strs,font=font,fill=fg_color)
         return strs
+
     if draw_points:
         create_points()
     strs = create_str()
@@ -54,6 +54,8 @@ def create_validate_code(
               0.001,
               float(random.randint(1,2)) / 500
               ]
+    #创建扭曲
     img = img.transform(size,Image.PERSPECTIVE,params)
+    #滤镜，边界加强
     img = img.filter(ImageFilter.EDGE_ENHANCE_MORE)
     return img,strs

@@ -42,7 +42,7 @@
       <div class="row cl">
         <div class="formControls col-xs-8 col-xs-offset-3">
           <input class="input-text size-L" name="captcha" type="text" placeholder="验证码" onblur="if(this.value==''){this.value='验证码:'}" onclick="if(this.value=='验证码:'){this.value='';}" value="验证码:" style="width:150px;">
-          <img src="{{ url_for('admin.get_code') }}" onclick="ajax1()"><a id="kanbuq" href="javascript:;">看不清，换一张</a>
+          <img src="{{ url_for('admin.get_code') }}" onclick="ajax1()" id="code">
         </div>
       </div>
       <div class="row cl">
@@ -73,7 +73,7 @@
         xhr.open('GET','{{ url_for('admin.get_code') }}',true);
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4) {
-                console.log(xhr.responseText);#}
+                {#console.log(xhr.responseText);#}
                 $('#code').attr('src','{{ url_for('admin.get_code') }}?' + Math.random())
             }
         };
