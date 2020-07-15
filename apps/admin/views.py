@@ -50,6 +50,7 @@ def login():
                         db.session.commit()
                         #保持登录状态
                         if online:
+                            #虚拟环境中是以venv\Lib\site-packages\flask\app.py里的默认permanent_session_lifetime决定的！MD卡了好久
                             session.permanent = True
                             bp.permanent_session_lifetime = timedelta(days=5)
                         return redirect(url_for('admin.index'))
