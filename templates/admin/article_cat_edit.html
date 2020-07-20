@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>分类编辑</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static',filename='static/h-ui.admin/css/public.css')}}">
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+　<script type="text/javascript" src="{{url_for('static',filename='lib/jquery/1.9.1/jquery.min.js')}}"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="http://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{{url_for('static',filename='layer/layer.js')}}"></script> <div style="height:10px;clear:both;display:block"></div> <style type="text/css">
+        .form_div{
+            width: 100%;
+            margin-left: 0px;
+            padding: 10px 20px;
+
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <form action="" class="form-horizontal" role="form" method='post'>
+  <div class="form-group form-group-sm">
+    <label class="col-sm-2 control-label" >上级栏目 </label>
+    <div class="col-sm-2">
+      <select name="parent_id" id="parent_id" class="selectpicker show-tick form-control">
+         <option value="0">无</option>
+          {% if message %}
+                       {{ message| safe }}
+                    {% endif %}
+                          </select>
+    </div>
+		<script type="text/javascript" >
+	$(function(){
+	$("#parent_id option[value={{ content.parent_id| safe }}]").attr("selected", "selected"); 
+      });
+</script>
+  </div>  <div class="form-group form-group-sm">
+    <label class="col-sm-2 control-label" >栏目名称</label>
+    <div class="col-sm-4">
+      <input id="cat_name" name="cat_name" class="form-control" type="text" value="{%- if content -%}
+                       {{ content.cat_name }}
+                    {%- endif %}" style="text-align:left ">
+    </div>
+  </div> <div class="form-group form-group-sm">
+    <label class="col-sm-2 control-label" >分类别名</label>
+    <div class="col-sm-4">
+            <div class="form-inline">
+            <input id="dir" name="dir" class="form-control" type="text" style="text-align:left " value="
+{%- if content -%}{{ content.dir| safe }}
+                    {%- endif %}" >
+           <input name="check" id="check" type="checkbox" value="1" >拼音
+            </div>
+    </div>
+  </div>
+
+  <div class="form-group form-group-sm">
+    <label class="col-sm-2 control-label" >关键字 </label>
+    <div class="col-sm-4">
+      <input class="form-control" style="text-align:left " type="text" id="keywords" name="keywords" value="{%- if content -%}
+                       {{ content.keywords}}
+                    {%- endif %}" >
+    </div>
+  </div> <div class="form-group form-group-sm">
+    <label class="col-sm-2 control-label" >栏目描述</label>
+    <div class="col-sm-6">
+      <textarea id="description" class="form-control" rows="3" name="description">{%- if content -%}
+                       {{ content.description| safe }}
+                    {%- endif %}</textarea>
+    </div>
+  </div> <div class="form-group form-group-sm">
+    <label class="col-sm-2 control-label" >排序 </label>
+    <div class="col-sm-3">
+      <input id="cat_sort" class="form-control" type="text" name="cat_sort" value="1">
+    </div>
+  </div>
+<input type="hidden" id="status" class="form-control"  name="status" value="1">
+<input type="hidden" id="cat_id" class="form-control"  name="cat_id" value=" {{ content.cat_id| safe }}">
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+         <div class="form-group form-group-sm">
+    <label class="col-sm-2 control-label" >    </label>
+    <div class="col-sm-2">
+       <button id="submit" neme="submit" class="btn btn-sm btn-primary btn-block" type="submit">提交</button>
+    </div>
+  </div>
+</form></div>
+</body>
+</html>

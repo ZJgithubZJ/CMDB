@@ -16,7 +16,7 @@ class Users(db.Model):
     is_super = db.Column(db.SmallInteger)
     role_id = db.Column(db.Integer,db.ForeignKey('jq_role.id'))
     remarks = db.Column(db.String(100))
-    time = db.Column(db.DateTime(),default=datetime.now)
+    reg_time = db.Column(db.DateTime, default=datetime.now)
     articles = db.relationship('Articles',lazy = 'dynamic')
     __table_args__ = {
         'mysql_charset': 'utf8',
@@ -54,7 +54,7 @@ class Articles_Cat(db.Model):
     # template=db.Column(db.String(80),nullable=False)# 栏目模板
     status=db.Column(db.Integer,nullable=False)#显示还是隐藏
     dir=db.Column(db.String(80),nullable=False)#如果实现静态化，该栏目的保存路径
-    articles = db.relationship("Articles", lazy="dynamic")#一个栏目对应多个文章
+    articles = db.relationship("Articles", lazy="dynamic")#一个分类对应多个文章
     __table_args__ = {
         'mysql_charset': 'utf8'
     }

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="Bookmark" href="{{url_for('static',filename='/favicon.ico')}}" >
+<link rel="Shortcut Icon" href="{{url_for('static',filename='/favicon.ico')}}" />
+    <script src="{{ url_for('static',filename='lib/ueditor/1.4.3/ueditor.config.js') }}"></script>
+    <script src="{{ url_for('static',filename='lib/ueditor/1.4.3//ueditor.all.min.js') }}"></script>
+<script type="text/javascript" src="{{url_for('static',filename='lib/jquery/1.9.1/jquery.min.js')}}"></script>
+
+    <!--[if lt IE 9]>
+<script src="{{ url_for('static',filename='lib/html5shiv.js') }}"></script>
+<script src="{{ url_for('static',filename='lib/respond.min.js') }}"></script>
+
+<![endif]-->
+  <link rel="stylesheet" href="{{url_for('static',filename='static/h-ui/css/H-ui.min.css')}}">
+  <link rel="stylesheet" href="{{url_for('static',filename='static/h-ui.admin/css/H-ui.admin.css')}}">
+   <link rel="stylesheet" href="{{url_for('static',filename='lib/Hui-iconfont/1.0.8/iconfont.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='static/h-ui.admin/skin/default/skin.css')}}" id="skin">
+	 <link rel="stylesheet" href="{{url_for('static',filename='static/h-ui.admin/css/style.css')}}">
+
+
+
+<!--[if IE 6]>
+
+<script src="{{ url_for('static',filename='lib/DD_belatedPNG_0.0.8a-min.js') }}"></script>
+
+<script>DD_belatedPNG.fix('*');</script>
+<![endif]-->
+<!--/meta 作为公共模版分离出去-->
+
+<title>新增文章 - 资讯管理 - H-ui.admin v3.1</title>
+<meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
+<meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
+</head>
+<body>
+
+
+<script type="text/plain" id="j_ueditorupload" style="height:5px;display:none;" ></script>
+    <script>
+      //实例化编辑器
+      var o_ueditorupload = UE.getEditor('j_ueditorupload',
+      {
+        autoHeightEnabled:false,
+         'serverUrl': '/ueditor/upload/'
+      });
+      o_ueditorupload.ready(function ()
+      {
+
+    o_ueditorupload.hide();//隐藏编辑器
+
+    //监听图片上传
+    o_ueditorupload.addListener('beforeInsertImage', function (t,arg)
+    {
+           $("#picture").attr("value", arg[0].src);
+    });
+
+    /* 文件上传监听
+     * 需要在ueditor.all.min.js文件中找到
+     * d.execCommand("insertHtml",l)
+     * 之后插入d.fireEvent('afterUpfile',b)
+     */
+        o_ueditorupload.addListener('afterUpfile', function (t, arg)
+        {
+          $("#picture").attr("value", arg[0].src);
+        });
+      });
+
+      //弹出图片上传的对话框
+      function upImage()
+      {
+        var myImage = o_ueditorupload.getDialog("insertimage");
+        myImage.open();
+      }
+      //弹出文件上传的对话框
+      function upFiles()
+      {
+        var myFiles = o_ueditorupload.getDialog("attachment");
+        myFiles.open();
+      }
+    </script>
+
+<article class="page-container">
+{% if article %}
+	<form action="{{ url_for('admin.article_edit_save') }}" class="form form-horizontal" id="form-article-add" method="post" type="multipart/form-data">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>文章标题：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{ article.title| safe }}" placeholder="" id="title" name="title">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">简略标题：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{ article.shorttitle| safe }}" placeholder="" id="shorttitle" name="shorttitle">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>分类栏目：</label>
+			<div class="formControls col-xs-8 col-sm-9"> 
+			
+<span class="select-box">
+				<select name="cat_id" class="select" id="cat_id" >
+					{% if cat %}
+                       {{ cat| safe }}
+                    {% endif %}
+				</select>
+				</span> 
+				<script type="text/javascript" >
+	
+	
+	$(function(){
+//$("#cat_id option[value={{ article.cat_id| safe }}]").attr("selected", "selected");
+   $("#cat_id  option[value={{ article.cat_id| safe }}] ").attr("selected",true)              
+
+      });
+</script>
+				</div>
+		</div>
+
+
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">关键词：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{ article.keywords| safe }}" placeholder="" id="keywords" name="keywords">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">文章摘要：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<textarea name="description" id="description" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" datatype="*10-100" dragonfly="true" nullmsg="备注不能为空！" onKeyUp="$.Huitextarealength(this,200)">{{ article.description| safe }}
+				
+				</textarea>
+				<p class="textarea-numberbar"><em class="textarea-length">0</em>/200</p>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">文章作者：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{% if username %}{{ username| safe }}{% endif %}" placeholder="" id="author_id" name="author_id">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">文章来源：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{ article.source| safe }}" placeholder="" id="source" name="source">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">允许评论：</label>
+			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+				<div class="check-box">
+					<input type="checkbox" id="allowcomments" name="allowcomments" checked="checked" value="0">
+					<label for="checkbox-pinglun">&nbsp;</label>
+				</div>
+			</div>
+		</div>
+
+<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">允许发布：</label>
+			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
+				<div class="check-box">
+					<input type="checkbox" id="status" name="status"  checked="checked" value="0">
+					<label for="checkbox-moban">&nbsp;</label>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">缩略图：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<div class="uploader-thum-container">
+					<div id="fileList" class="uploader-list"></div>
+                    <input type="text" class="input-text" id="picture" name="picture" value="{{ article.picture| safe }}"/>
+    <button type="button" onClick="upImage()">上传图片</button>
+
+				</div>
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">文章内容：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<script id="editor" type="text/plain" style="width:100%;height:300px;">
+				{{ article.body| safe }}
+				</script>
+				<script>
+    var ue = UE.getEditor("editor",{
+        'serverUrl': '/ueditor/upload/'
+    });
+   
+		//UE.getEditor('editor').addListener("ready", function () {
+// editor准备好之后才可以使用
+//UE.getEditor('editor').setContent('提示的文字');
+//});
+
+</script>
+			</div>
+		</div>
+		<input type="hidden" id="article_id" name="article_id" value="{{ article.aid| safe }}"/>
+		<input type="hidden" id="author_id_new" name="author_id_new" value="{{ article.author_id| safe }}"/>
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+				<input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+				<button  class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存并提交审核</button>
+				<button onClick="article_save();" class="btn btn-secondary radius" type="button"><i class="Hui-iconfont">&#xe632;</i> 保存草稿</button>
+				<button onClick="removeIframe();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>
+			</div>
+		</div>
+    {% if errors %}
+                       {{ errors| safe }}
+                    {% endif %}
+					
+					 {% for msg in get_flashed_messages(category_filter=['error'])  %}    
+        {{ msg }}   
+{% endfor %}
+	</form>
+	
+	{% endif %}
+</article>
+<!--_footer 作为公共模版分离出去-->
+<script src="{{ url_for('static',filename='lib/jquery/1.9.1/jquery.min.js') }}"></script>
+<script src="{{ url_for('static',filename='lib/layer/2.4/layer.js') }}"></script>
+<script src="{{ url_for('static',filename='static/h-ui/js/H-ui.min.js') }}"></script>
+<script src="{{ url_for('static',filename='static/h-ui.admin/js/H-ui.admin.js') }}"></script>
+<!--/_footer /作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script src="{{ url_for('static',filename='lib/My97DatePicker/4.8/WdatePicker.js') }}"></script>
+<script src="{{ url_for('static',filename='lib/jquery.validation/1.14.0/jquery.validate.js') }}"></script>
+<script src="{{ url_for('static',filename='lib/jquery.validation/1.14.0/validate-methods.js') }}"></script>
+<script src="{{ url_for('static',filename='lib/jquery.validation/1.14.0/messages_zh.js') }}"></script>
+<script src="{{ url_for('static',filename='lib/webuploader/0.1.5/webuploader.min.js') }}"></script>
+
+
+
+
+</body>
+</html>

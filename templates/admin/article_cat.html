@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>用户登录</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static',filename='static/h-ui.admin/css/public.css')}}">
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+　<script type="text/javascript" src="{{url_for('static',filename='lib/jquery/1.9.1/jquery.min.js')}}"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="http://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{{url_for('static',filename='static/lib/layer/2.4/layer.js')}}"></script>
+
+
+            <div style="height:10px;clear:both;display:block"></div> <style type="text/css">
+        .form_div{
+            width: 100%;
+            margin-left: 0px;
+            padding: 10px 20px;
+
+        }
+    </style>
+</head>
+<body>
+<script language="JavaScript">
+ $(function() {
+                var checkok1=false;
+                var checkok2=false;
+                var checkok3=false;
+				var checkok4=false;
+
+ //栏目输入框失去焦点时
+           $('input[name="cat_name"]').on('blur',function(){
+                 if(($('#cat_name').val()=='')){
+                    layer.msg('栏目名称不能为空');
+                }
+                else{
+                        checkok1=true;
+                    }
+            });
+
+
+           //判断是否被选中
+           	$("#check").change(function(){
+                    /*chekbox选中返回true，否则为false*/
+                    //var check = $(this).is(":checked");
+                    if(($(this).is(":checked")==true)){
+                    $("#dir").hide();
+                }
+                else {
+                    $("#dir").show();
+                    }
+
+                    //alert("checkbox为："+check);
+                    });
+
+            //栏目关键字输入框失去焦点时
+           $('input[name="keywords"]').on('blur',function(){
+                 if(($('#keywords').val()=='')){
+                    layer.msg('栏目关键字不能为空');
+                }else{
+                        checkok2=true;
+                    }
+            });
+             //栏目描述输入框失去焦点时
+           $('textarea[name="description"]').on('blur',function(){
+                 if(($('#description').val()=='')){
+                    layer.msg('栏目描述不能为空');
+                }else{
+                        checkok3=true;
+                    }
+            });
+            //提交按钮,所有验证通过方可提交
+                 $('#submit').click(function(){
+            if(checkok1 && checkok2 && checkok3 ){
+                        $('form').submit();
+                    }else{
+                        return false;
+                    }
+        });
+
+
+ })
+
+ </script>
+
+<div class="container">
+    <form action="{{ url_for('admin.article_cat_add') }}" class="form-horizontal" role="form" method='post'>
+    <div class="form-group form-group-sm">
+    <label class="col-sm-2 control-label" >上级栏目 </label>
+        <div class="col-sm-2">
+            <select name="parent_id" id="parent_id" class="selectpicker show-tick form-control">
+                <option value="0">无</option>
+                {% if message %}
+                    {{ message| safe }}
+                {% endif %}
+            </select>
+        </div>
+    </div>
+    <div class="form-group form-group-sm">
+        <label class="col-sm-2 control-label" >栏目名称</label>
+        <div class="col-sm-4">
+        <input id="cat_name" name="cat_name" class="form-control" type="text" >
+        </div>
+    </div>
+        <div class="form-group form-group-sm">
+            <label class="col-sm-2 control-label" >分类别名</label>
+            <div class="col-sm-4">
+            <div class="form-inline">
+            <input id="dir" name="dir" class="form-control" type="text" ><br>
+            <input name="check" id="check" type="checkbox" value="1" >拼音
+            </div>
+            </div>
+        </div>
+
+  <div class="form-group form-group-sm">
+    <label class="col-sm-2 control-label" >关键字 </label>
+    <div class="col-sm-4">
+      <input class="form-control" type="text" id="keywords" name="keywords">
+    </div>
+  </div>
+        <div class="form-group form-group-sm">
+    <label class="col-sm-2 control-label" >栏目描述</label>
+    <div class="col-sm-6">
+      <textarea id="description" class="form-control" rows="3" name="description"></textarea>
+    </div>
+  </div>
+        <div class="form-group form-group-sm">
+    <label class="col-sm-2 control-label" >排序 </label>
+    <div class="col-sm-3">
+      <input id="cat_sort" class="form-control" type="text" name="cat_sort" value="1">
+    </div>
+  </div>
+ <input type="hidden" id="status" class="form-control"  name="status" value="1">
+        <div class="form-group form-group-sm">
+        <label class="col-sm-2 control-label" >    </label>
+        <div class="col-sm-2">
+            <button id="submit" neme="submit" class="btn btn-sm btn-primary btn-block" type="submit">提交</button>
+        </div>
+  </div>
+</form>
+</div>
+</body>
+</html>

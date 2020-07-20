@@ -7,6 +7,14 @@
 				<td><span id="lbServerName">{{ user.username }}</span></td>
 			</tr>
 			<tr>
+				<td>性别</td>
+				<td>{{ user.sex }}</td>
+			</tr>
+            <tr>
+                <td>联系电话</td>
+                <td>{{ user.telephone }}</td>
+            </tr>
+			<tr>
 				<td>邮箱</td>
 				<td>{{ user.email }}</td>
 			</tr>
@@ -14,10 +22,10 @@
 				<td>注册时间</td>
 				<td>{{ user.reg_time }}</td>
 			</tr>
-			<tr>
-				<td> </td>
-				<td></td>
-			</tr>
+            <tr>
+                <td>备注</td>
+                <td>{{ user.remarks }}</td>
+            </tr>
 		</tbody>
 	</table>
 </div>

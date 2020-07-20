@@ -14,39 +14,36 @@
              data: dd,
              success: function(json) {
                  if(json.status==11){
-                      $("#oldpwd").next().text('密码正确').removeClass('state1').addClass('state3');
+                      $("#oldpwd").next().text('原密码正确').removeClass('state1').addClass('state4');
                       checkok1=1;
                  }
                  else {
-                      $("#oldpwd").next().text('密码不对').removeClass('state1').addClass('state4');
+                      $("#oldpwd").next().text('原密码不正确').removeClass('state1').addClass('state3');
                  }
              },
-
          });
-     })
+     });
 	 //验证新密码
           $('input[name="newpwd1"]').focus(function(){
-                    $("#newpwd1").next().text('密码应该为6-15位之间').removeClass('state1').addClass('state2');
+                    $("#newpwd1").next().text('密码长度为6-15位之间').removeClass('state1').addClass('state2');
                 }).blur(function(){
                     if($("#newpwd1").val().length >= 6 && $(this).val().length <=15 && $(this).val()!=''){
-                        $("#newpwd1").next().text('输入有效').removeClass('state1').addClass('state4');
+                        $("#newpwd1").next().text('密码合法').removeClass('state1').addClass('state4');
                         checkok2=true;
                     }else{
-                        $("#newpwd1").next().text('密码应该为6-20位之间').removeClass('state1').addClass('state3');
+                        $("#newpwd1").next().text('密码长度为6-15位之间').removeClass('state1').addClass('state3');
                     }
-                     
                 });
 	   //再次验证新密码
                     $('input[name="newpwd2"]').focus(function(){
-                    $(this).next().text('两次输入密码需要一样').removeClass('state1').addClass('state2');
+                    $(this).next().text().removeClass('state1').addClass('state2');
                 }).blur(function(){
                     if($(this).val().length >= 6 && $(this).val().length <=15 && $(this).val()!='' && $(this).val() == $('input[name="newpwd2"]').val()){
-                        $(this).next().text('输入成功').removeClass('state1').addClass('state4');
+                        $(this).next().text('确认成功').removeClass('state1').addClass('state4');
                         checkok3=true;
                     }else{
                         $(this).next().text('您输入的两次密码不一样哦').removeClass('state1').addClass('state3');
                     }
-
                 });
           //提交按钮,所有验证通过方可提交
                  $('#button_1').click(function(){
@@ -55,31 +52,30 @@
                     }else{
                         return false;
                     }
-        });
+         });
  })
-
- </script>
+</script>
 <div class="container">
     <div class="form_div">
       <form action="{{ url_for('admin.editpwd') }}" class="form-signin" role="form" method='post'>
         <h2 class="form-signin-heading">修改密码</h2>
-        <input type="password" class="form-control" placeholder="请输入旧密码" required autofocus name="oldpwd" id="oldpwd">
-          <span class='state1'>请输入旧密码</span>
-            <div style="height:10px;clear:both;display:block"></div>
+        <input type="password" class="form-control" placeholder="请输入原密码" required name="oldpwd" id="oldpwd">
+          <span class='state1'></span>
+            <div style="height:10px;display:block"></div>
         <input type="password" class="form-control" placeholder="请输入新密码" required name="newpwd1" id="newpwd1">
-		 <span class='state1'>请输入新密码</span>
+		 <span class='state1'></span>
           <div style="height:10px;clear:both;display:block"></div>
        <input type="password" class="form-control" placeholder="请再次输入新密码" required name="newpwd2" id="newpwd2">
-	    <span class='state1'>请再次输入新密码</span>
+	    <span class='state1'></span>
             <div style="height:10px;clear:both;display:block"></div>
         <div class="form-group">
-                <button type="button" class="btn btn-primary" id="button_1">提交修改</button>
-            </div>
-          <div style="height:10px;clear:both;display:block"></div>
-      </form>
-         {% if  message %}
-<p style="color:red">{{ message }} </p>
-{% endif %}
+            <button type="button" class="btn btn-primary" id="button_1" style="border-radius: 4px">提交修改</button>
         </div>
+          <div style="height:10px;clear:both;display:block"></div>
+          <span class='state1'></span>
+      </form>
+         {% if message %}
+            <p style="color:green">{{ message }} </p>
+         {% endif %}
     </div>
-
+</div>

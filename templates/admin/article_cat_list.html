@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>用户登录</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{url_for('static',filename='static/h-ui.admin/css/public.css')}}">
+    <script type="text/javascript" src="{{url_for('static',filename='static/h-ui.admin/js/qikoo.js')}}"></script>
+
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+　<script type="text/javascript" src="{{url_for('static',filename='lib/jquery/1.9.1/jquery.min.js')}}"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="http://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{{url_for('static',filename='static/lib/layer/2.4/layer.js')}}"></script>
+    <style>
+        .actionBtn{
+            float: right;
+            display: block;
+            color: white;
+            padding: 0 20px;
+            border-radius: 4px;
+            background-color: #28B779;
+        }
+    </style>
+</head>
+<body>
+
+<script language="JavaScript">
+  function rec() {
+
+if(confirm("确定删除该条记录？")){
+a.setAttribute("onclick",'');
+return true;
+}
+return false;
+}
+</script>
+<div class="container">
+    <div class="mainBox">
+        <h3><a href="{{ url_for('admin.article_cat_add') }}" class="actionBtn">添加分类</a>文章分类</h3>
+        <table width="100%" border="0" cellpadding="8" cellspacing="0" class="tableBasic">
+        <tr>
+            <th width="120" align="left">分类名称</th>
+            <th align="left">别名</th>
+            <th align="left">简单描述</th>
+            <th width="60">排序</th>
+            <th width="55" style="margin-right: 5px">操作</th>
+        </tr>
+        {% if message %}
+            {{ message| safe }}
+        {% endif %}
+        </table>
+    </div>
+</div>
+</body>
+</html>

@@ -29,7 +29,7 @@
 
 </head>
 <body>
-<header class="navbar-wrapper">
+<header class="navbar-wrapper" style="position: ">
 	<div class="navbar navbar-fixed-top">
 		<div class="container-fluid cl"><a class="logo navbar-logo f-l mr-10 hidden-xs" href="/aboutHui.shtml">admin</a><a class="logo navbar-logo-m f-l mr-10 visible-xs" href="/aboutHui.shtml">H-ui</a>
 			<span class="logo navbar-slogan f-l mr-10 hidden-xs">v3.1</span>
@@ -79,8 +79,9 @@
             <dt><i class="Hui-iconfont">&#xe616;</i> 文章管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
             <dd>
                 <ul>
-                    <li><a data-href="article-list.html" data-title="文章管理" href="javascript:void(0)">文章管理</a></li>
-                    <li><a data-href="" data-title="分类管理" href="javascript:void(0)">分类管理</a></li>
+                    <li><a data-href="{{ url_for('admin.article_list') }}" data-title="文章管理" href="javascript:void(0)">文章管理</a></li>
+                    <li><a data-href="{{ url_for('admin.article_cat_add') }}" data-title="分类管理" href="javascript:void(0)">分类管理</a></li>
+                    <li><a data-href="{{ url_for('admin.article_cat_list') }}" data-title="栏目列表" href="javascript:void(0)">栏目列表</a></li>
                     <li><a data-href="article-list.html" data-title="回收站" href="javascript:void(0)">回收站</a></li>
                 </ul>
             </dd>

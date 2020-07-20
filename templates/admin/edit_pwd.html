@@ -1,33 +1,44 @@
 {% extends "admin/base.html" %}
 {%  block head %}
-   <link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="http://cdn.bootcss.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
-<script src="http://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-    　<script type="text/javascript" src="{{url_for('static',filename='lib/jquery/1.9.1/jquery.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static',filename='lib/jquery/1.9.1/jquery.js')}}"></script>
+    <script src="http://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <style>
         .form_div{
-        width: 400px;
+            width: 400px;
             padding: 30px 20px;
            }
-
-      .state1{
-                color:#aaa;
-            }
-            .state2{
-                color:#000;
-            }
-            .state3{
-                color:red;
-            }
-            .state4{
-                color:green;
-            }
-         </style>
+        .state1{
+            color:#aaa;
+            padding-left: 6px;
+        }
+        .state2{
+            color:#000;
+            padding-left: 6px;
+        }
+        .state3{
+            color:red;
+            padding-left: 6px;
+        }
+        .state4{
+            color:green;
+            padding-left: 6px;
+        }
+        .form-control{
+            height: 35px;
+            border-radius: 4px;
+            width: 260px;
+            border: 1px solid #aaa;
+            display: block;
+            padding-left: 6px;
+        }
+        .form-signin-heading{
+            margin-bottom: 13px;
+        }
+    </style>
 {% endblock %}
-{% block title %}佳奇CMS系统-个人详情页{% endblock %}
+{% block title %}个人详情页{% endblock %}
 {% block body %}
 {% include 'admin/edit_pwd_details.html' %}
-{% endblock %}
-{% block footer %}
-    {% include 'admin/footer.html' %}
 {% endblock %}

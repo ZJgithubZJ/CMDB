@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>用户登录</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+　<script type="text/javascript" src="{{url_for('static',filename='lib/jquery/1.9.1/jquery.min.js')}}"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="http://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{{url_for('static',filename='layer/layer.js')}}"></script>
+
+
+            <div style="height:10px;clear:both;display:block"></div> <style type="text/css">
+        .form_div{
+            width: 100%;
+            margin-left: 0px;
+            padding: 10px 20px;
+			
+
+        }
+    </style>
+</head>
+<body>
+<script language="JavaScript">
+
+
+ </script>
+#<a href="../article_cat_del/{cat_id}" style="color: white" onclick="{if(confirm('确定纪录吗?')){this.document.formname.submit();return true;}return false;}">删除</a>
+
+<div class="container">
+   
+<table width="100%" border="0" cellpadding="8" cellspacing="0" class="tableBasic">
+     <tr>
+        <th width="120" align="left">分类名称</th>
+      <th align="left">别名</th>
+        <th align="left">简单描述</th>
+       <th width="60" align="center">排序</th>
+        <th width="80" align="center">操作</th>
+      </tr>
+            <tr>
+        <td align="left"> <a href="article.php?cat_id=1">公司动态</a></td>
+        <td>company</td>
+        <td>公司的最新新闻在此发布</td>
+        <td align="center">10</td>
+        <td align="center"><a href="article_category.php?rec=edit&cat_id=1">编辑</a> | <a href="article_category.php?rec=del&cat_id=1">删除</a></td>
+      </tr>
+            <tr>
+        <td align="left">- <a href="article.php?cat_id=4">公司要闻</a></td>
+        <td>gongshiyaowen</td>
+        <td>公司要闻</td>
+        <td align="center">50</td>
+        <td align="center"><a href="article_category.php?rec=edit&cat_id=4">编辑</a> | <a href="article_category.php?rec=del&cat_id=4">删除</a></td>
+      </tr>
+            <tr>
+        <td align="left"> <a href="article.php?cat_id=2">行业新闻</a></td>
+        <td>industry</td>
+        <td>最新行业资讯</td>
+        <td align="center">20</td>
+        <td align="center"><a href="article_category.php?rec=edit&cat_id=2">编辑</a> | <a href="article_category.php?rec=del&cat_id=2">删除</a></td>
+      </tr>
+            <tr>
+        <td align="left"> <a href="article.php?cat_id=3">公司新闻</a></td>
+        <td>news</td>
+        <td>公司新闻</td>
+        <td align="center">50</td>
+        <td align="center"><a href="article_category.php?rec=edit&cat_id=3">编辑</a> | <a href="article_category.php?rec=del&cat_id=3">删除</a></td>
+      </tr>
+          </table>
+
+
+
+    </div>
+</body>
+</html>
