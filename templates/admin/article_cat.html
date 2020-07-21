@@ -91,9 +91,8 @@
     <label class="col-sm-2 control-label" >上级栏目 </label>
         <div class="col-sm-2">
             <select name="parent_id" id="parent_id" class="selectpicker show-tick form-control">
-                <option value="0">无</option>
                 {% if message %}
-                    {{ message| safe }}
+                {{ message | safe }}
                 {% endif %}
             </select>
         </div>
@@ -107,10 +106,10 @@
         <div class="form-group form-group-sm">
             <label class="col-sm-2 control-label" >分类别名</label>
             <div class="col-sm-4">
-            <div class="form-inline">
-            <input id="dir" name="dir" class="form-control" type="text" ><br>
-            <input name="check" id="check" type="checkbox" value="1" >拼音
-            </div>
+                <div class="form-inline">
+                    <input id="dir" name="dir" class="form-control" type="text">
+                    <input name="check" id="check" type="checkbox" value="1" style="vertical-align: sub"><span style="height: 14px"> 拼音</span>
+                </div>
             </div>
         </div>
 

@@ -1,6 +1,7 @@
 #coding:utf8 -*-
 from flask import Blueprint,request,session,redirect,make_response,jsonify
 from flask import render_template,url_for
+from flask_wtf.csrf import generate_csrf
 from datetime import timedelta
 from sqlalchemy import func
 from sqlalchemy import and_
@@ -166,7 +167,6 @@ def checkpwd():
             }
     return jsonify(data)
 
-
 def build_tree(data,p_id,level=0):
     '''
     生成树菜单
@@ -194,24 +194,24 @@ def build_table(data,parent_title='顶级菜单'):
         title = splice * row['level'] + row['cat_name']
         tr_td = """<option value={cat_id}>{title}</option>"""
         if row['child']:
-            html += tr_td.format(class_name='top_menu', title = title,cat_id = cat_id)
+            html += tr_td.format(class_name='top_menu',title=title,cat_id=cat_id)
             html += build_table(row['child'],row['cat_name'])
         else:
-            html += tr_td.format(class_name='',title=title,cat_id=cat_id)
+            html += tr_td.format(class_name='top_menu',title=title,cat_id=cat_id)
     return html
 
+#添加分类
 @bp.route('/article_cat_add',methods = ['GET','POST'])
 @login_required
 def article_cat_add():
     if request.method == 'GET':
         categories = Articles_Cat.query.all()
-        list = []
         data = {}
+        list = []
         for cat in categories:
-            data = dict(cat_id=cat.cat_id,parent_id=cat.parent_id,cat_name=cat.cat_name)
+            data = dict(cat_id=cat.cat_id,cat_name=cat.cat_name,parent_id=cat.parent_id)
             list.append(data)
         data = build_tree(list,0,0)
-        print(data)
         html = build_table(data,parent_title='顶级菜单')
         return render_template('admin/article_cat.html',message=html)
     else:
@@ -221,7 +221,7 @@ def article_cat_add():
         if form.validate():
             parent_id = request.form.get('parent_id')
             cat_name = request.form.get('cat_name')
-            dir = request.form.get('dir')
+            dir= request.form.get('dir')
             check = request.form.get('check')
             if check:
                 dir = request.form.get('cat_name')
@@ -241,9 +241,10 @@ def article_cat_add():
             db.session.commit()
             return redirect(url_for('admin.article_cat_list'))
         else:
-            #print()
             return '校验没通过'
 
+
+#创建分类列表
 def create_cat_list(data,parent_title='顶级菜单'):
     html = ''
     for row in data:
@@ -259,7 +260,7 @@ def create_cat_list(data,parent_title='顶级菜单'):
             <td>{dir}</td>
             <td>{description}</td>
             <td align="left">{cat_sort}</td>
-            <td align="left"><a href="../article_cat_edit/{cat_id}">编辑</a>|<a href="../article_cat_del/{cat_id}" onClick="red();return false">删除</a></td>
+            <td align="left"><a href="article_cat_edit/{cat_id}">编辑</a>|<a href="../article_cat_del/{cat_id}" onClick="red();return false">删除</a></td>
         </tr>
         """
         if row['child']:
@@ -267,6 +268,7 @@ def create_cat_list(data,parent_title='顶级菜单'):
             html += create_cat_list(row['child'],row['cat_name'])
         else:
             html += tr_td.format(class_name='-',title=title,cat_id=cat_id,description= description,dir=dir,cat_sort=cat_sort)
+        #print(html)
     return html
 
 #栏目列表
@@ -283,6 +285,27 @@ def article_cat_list():
         data = build_tree(list,0,0)
         html = create_cat_list(data,parent_title='顶级菜单')
         return render_template('admin/article_cat_list.html',message = html)
+
+#编辑分类栏
+@bp.route('/article_cat_edit/<id>',methods=['GET'])
+@login_required
+def article_cat_edit(id):
+    if request.method == 'GET':
+        cat_list = Articles_Cat.query.filter(Articles_Cat.cat_id == id).first()
+        categories = Articles_Cat.query.all()
+        list = []
+        data = {}
+        for cat in categories:
+            data = dict(cat_id=cat.cat_id,parent_id=cat.parent_id,cat_name=cat.cat_name)
+            list.append(data)
+        data = build_tree(list,0,0)
+        html = build_table(data,parent_title='顶级菜单')
+        return render_template('admin/article_cat_edit.html',content=cat_list,message=html)
+
+
+
+
+
 
 
 
@@ -303,10 +326,12 @@ def article_list():
         news1 = pagination.items
         return render_template('admin/article-list.html',pagination=pagination,news1=news1,rows=rows,total=total)
 
-
-
-
-
+@bp.after_request
+def after_request(response):
+    csrf_token = generate_csrf()
+    #通过cookie将值传给前端
+    response.set_cookie("csrf_token",csrf_token)
+    return response
 
 
 
