@@ -4,20 +4,18 @@
 <meta charset="utf-8">
 <meta name="renderer" content="webkit|ie-comp|ie-stand">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
 <meta http-equiv="Cache-Control" content="no-siteapp" />
 <!--[if lt IE 9]>
 <script src="{{ url_for('static',filename='lib/html5shiv.js') }}"></script>
 <script src="{{ url_for('static',filename='lib/respond.min.js') }}"></script>
 <![endif]-->
-
 <link rel="stylesheet" href="{{url_for('static',filename='static/h-ui/css/H-ui.min.css')}}">
 <link rel="stylesheet" href="{{url_for('static',filename='static/h-ui.admin/css/H-ui.admin.css')}}">
 <link rel="stylesheet" href="{{url_for('static',filename='lib/Hui-iconfont/1.0.8/iconfont.css')}}">
 <link rel="stylesheet" href="{{url_for('static',filename='static/h-ui.admin/skin/default/skin.css')}}" id="skin">
 <link rel="stylesheet" href="{{url_for('static',filename='static/h-ui.admin/css/style.css')}}">
-　<script type="text/javascript" src="{{url_for('static',filename='lib/jquery/1.9.1/jquery.min.js')}}"></script>
-
+<script type="text/javascript" src="{{url_for('static',filename='lib/jquery/1.9.1/jquery.min.js')}}"></script>
 <!--[if IE 6]>
 <script src="{{ url_for('static',filename='lib/DD_belatedPNG_0.0.8a-min.js') }}"></script>
 <script>DD_belatedPNG.fix('*');</script>
@@ -26,20 +24,16 @@
 </head>
 <body>
 <script type="text/javascript">
-
-$(document).ready(function(){
-  $("#do_search").click(function(){
-   var key=$("#searchString").val();
-   location.href="{{url_for('admin.search_list')}}?p=1&key=" +key;
+    $(document).ready(function(){
+        $("#do_search").click(function(){
+        var key=$("#searchString").val();
+        location.href="{{url_for('admin.search_list')}}?p=1&key=" +key;
   });
-});
 </script>
 <nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 资讯管理 <span class="c-gray en">&gt;</span> 资讯列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
 	<div class="text-c">
 		<button onclick="removeIframe()" class="btn btn-primary radius">关闭选项卡</button>
-	  
-		
 		<input type="text" name="searchString" id="searchString" placeholder=" 资讯名称" style="width:550px" class="input-text">
 		<button name="do_search" id="do_search" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜资讯</button>
 	</div>
@@ -61,17 +55,12 @@ $(document).ready(function(){
 			</thead>
 			<tbody>
              {% if news1 %}
-                       {% for row in news1 %}
-
-					   
-					   
+                 {% for row in news1 %}
 				<tr class="text-c">
 					<td><input type="checkbox" value="{{ row.aid }}" name="smallBox" id="smallBox"></td>
 					<td>{{ row.aid }}</td>
 					<td class="text-l">
 					<a href="../../article_details/{{ row.aid }}" target="_blank">{{ row.title }}</a>
-					
-					
 					</td>
 					<td>行业动态</td>
 					<td>H-ui</td>
@@ -90,26 +79,20 @@ $(document).ready(function(){
 					{% else %}
 					<a style="text-decoration:none" onClick="article_start(this,'{{ row.aid }}')" href="javascript:;" title="发布"><i class="Hui-iconfont">&#xe603;</i></a> 
 					{% endif %}
-					
-					<a style="text-decoration:none" class="ml-5"  href="../admin/article_edit/{{ row.aid }}" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a> <a style="text-decoration:none" class="ml-5" onClick="article_del(this,'{{ row.aid }}')" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+                        <a style="text-decoration:none" class="ml-5"  href="admin/article_edit/{{ row.aid }}" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a><a style="text-decoration:none" class="ml-5" onClick="article_del(this,'{{ row.aid }}')" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
 				</tr>
                  {% endfor %}
-				{% endif %}
-			</tbody>
+             {% endif %}
+            </tbody>
 		</table>
-		
-		
-		
 		<!--_分页开始-->
 		<div class="dataTables_wrapper">
 	<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">共 {{pagination.pages}} 页</div>
-		
 		<div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">				
 		{% if pagination.has_prev %}
 		<a class="paginate_button previous disabled" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" id="DataTables_Table_0_previous" href='{{ url_for('admin.article_list')}}?page={{ pagination.prev_num }}' >上一页</a>		
 		{% else %}<a class="paginate_button next disabled" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" id="DataTables_Table_0_next" href='#'>首页</a>		
 		 {% endif %}
-		 
 		   {%for page in pagination.iter_pages(1,1,3,1)%}
            <a href="{{ url_for('admin.article_list') }}?page={{ page }}">
         {% if not i %}
@@ -117,44 +100,28 @@ $(document).ready(function(){
         {% else %}
               <span class="paginate_button current" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0">{{ page }}</span>
         {% endif %}
-    </a>
-		 
+            </a>
         {%endfor%}
-		 
-		 
-		  
-		  
-		  
 		{% if pagination.has_next %}	
 		<a class="paginate_button next disabled" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" id="DataTables_Table_0_next" href='{{ url_for('admin.article_list')}}?page={{ pagination.next_num }}'>下一页</a>	
         {% else %}		
 		<a class="paginate_button next disabled" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" id="DataTables_Table_0_next" href='#'>尾页</a>
 		   {% endif %}
-		   
-		 
-		   
-		</div>	
-		
-	</div>
+		    </div>
+        </div>
 	</div>
 </div>
 <!--_footer 作为公共模版分离出去-->
-
-
 
 <script src="{{ url_for('static',filename='lib/jquery/1.9.1/jquery.min.js') }}"></script>
 <script src="{{ url_for('static',filename='lib/layer/2.4/layer.js') }}"></script>
 <script src="{{ url_for('static',filename='static/h-ui/js/H-ui.min.js') }}"></script>
 <script src="{{ url_for('static',filename='static/h-ui.admin/js/H-ui.admin.js') }}"></script>
-
-
-
-
 <!--/_footer 作为公共模版分离出去-->
 
 <!--请在下方写此页面业务相关的脚本-->
-<script type="text/javascript" src="lib/My97DatePicker/4.8/WdatePicker.js"></script> 
-<script type="text/javascript" src="lib/datatables/1.10.0/jquery.dataTables.min.js"></script> 
+<script type="text/javascript" src="{{ url_for('static',filename="lib/My97DatePicker/4.8/WdatePicker.js")}}"></script>
+<script type="text/javascript" src="{{ url_for('static',filename="lib/datatables/1.10.0/jquery.dataTables.min.js") }}"></script>
 
 <script type="text/javascript">
 $('.table-sort').dataTable({
@@ -166,7 +133,6 @@ $('.table-sort').dataTable({
 	  {"orderable":false,"aTargets":[0,8]}// 不参与排序的列
 	]
 });
-
 /*资讯-添加*/
 function article_add(title,url,w,h){
 	var index = layer.open({
@@ -194,13 +160,13 @@ function article_del(obj,id){
 			url: '..{{ url_for('admin.article_del') }}',
 			data : {　　　　　　　　　　　      
 　　　　　　　　aid : id
-               　  
+               　
 　　　　　　},
-						
+
 			success: function(data){
-				
+
 				layer.msg('已删除!',{icon:1,time:1000});
-				window.location.href=window.location.href; 
+				window.location.href=window.location.href;
 			},
 			error:function(data) {
 				console.log(data.msg);
@@ -241,9 +207,9 @@ function article_stop(obj,id){
 			url: '..{{ url_for('admin.article_stop') }}',
 			data : {　　　　　　　　　　　      
 　　　　　　　　aid : id
-               　  
+               　
 　　　　　　},
-						
+
 			success: function(data){
 			 if(data==''){
                     alert("数据为空");
@@ -252,8 +218,8 @@ function article_stop(obj,id){
 		layer.msg('已下架!',{icon: 5,time:1000});	
 window.location.href=window.location.href; 		
                 }
-				
-				
+
+
 			},
 			error:function(data) {
 				console.log(data.msg);				 
@@ -261,7 +227,7 @@ window.location.href=window.location.href;
 			},
 		});
 		//提交到服务器结束
-			
+
 	});
 }
 
@@ -299,10 +265,7 @@ function article_shenqing(obj,id){
 	$(obj).parents("tr").find(".td-status").html('<span class="label label-default radius">待审核</span>');
 	$(obj).parents("tr").find(".td-manage").html("");
 	layer.msg('已提交申请，耐心等待审核!', {icon: 1,time:2000});
-	
 }
-
-
  //AJAX批量删除
         $("#delAll").click(function(){
 		
@@ -345,19 +308,9 @@ function article_shenqing(obj,id){
 				 alert(失败);
 				 alert(data);
 			},
-		});		
-	
-
-
-
-	 
+		});
 	 }//else完毕
-	 
-	
-	 
-	
-        })
-
+})
 </script> 
 </body>
 </html>

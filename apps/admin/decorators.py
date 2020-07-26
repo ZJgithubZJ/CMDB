@@ -18,6 +18,7 @@ def admin_auth(func):
     def wrapper(*args,**kwargs):
         user_id = session.get(config.ADMIN_USER_ID)
         admin = Users.query.join(Role).filter(Role.id == Users.role_id,Users.uid == user_id).first()
+        #print(admin)
         auths = admin.jq_role.auths
         auths_list1 = auths.split(',')
         auths_list2 = []
@@ -29,8 +30,10 @@ def admin_auth(func):
             for v in auths_list2:
                 if v == i.id:
                     auths_list3.append(i.url)
+        #print(request.url_rule)
         rule = str(request.url_rule)
+        #print(auths_list3)
         if rule not in auths_list3:
             return '对不起，您无权访问，您拥有的权限为{}，现在访问的为{}'.format(auths_list3,rule)
-        return func(*args,**kwargs)
+        return func(*args)
     return wrapper

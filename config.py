@@ -11,3 +11,4 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 ADMIN_USER_ID = 'JIAQICMSJIQI'
 MEMBER_USER_ID = 'MEMBERREGISTER'
 SECRET_KEY = os.urandom(24)
+UEDITOR_UPLOAD_PATH = os.path.join(os.path.dirname(__file__),'static','images')

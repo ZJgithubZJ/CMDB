@@ -4,12 +4,14 @@ from exts import db
 from apps.admin import bp as admin_bp
 from apps.front import bp as front_bp
 from apps.common import bp as common_bp
+from apps.ueditor import bp as editor_bp
 
 def create_app():
     app = Flask(__name__)
     app.register_blueprint(admin_bp)
     app.register_blueprint(front_bp)
     app.register_blueprint(common_bp)
+    app.register_blueprint(editor_bp)
     app.config.from_object('config')
     db.init_app(app)
     return app

@@ -65,21 +65,21 @@ article_tag = db.Table('article_tag',
 #定义文章开始
 class Articles(db.Model):
     __tablename__ = 'jq_article'
-    aid = db.Column(db.Integer,primary_key=True,autoincrement=True)  # 分类ID
-    cat_id = db.Column(db.Integer, db.ForeignKey("jq_article_category.cat_id"))  # 分类ID
-    title = db.Column(db.String(255), nullable=False)  # 文章标题,nullable=false是这个字段在保存时必需有值
-    shorttitle=db.Column(db.String(255),nullable=True)#短标题可以为空
-    source = db.Column(db.String(64), nullable=False)  # 文章来源
-    keywords=db.Column(db.String(64),nullable=False)#关键字不能为空
-    description = db.Column(db.String(512), nullable=False)  # 文章摘要
-    body = db.Column(db.Text, nullable=False)  # 文章内容
-    clicks = db.Column(db.Integer, default=0)  # 浏览量
+    aid = db.Column(db.Integer,primary_key=True,autoincrement=True)  #分类ID
+    cat_id = db.Column(db.Integer, db.ForeignKey("jq_article_category.cat_id"))  #分类ID
+    title = db.Column(db.String(255), nullable=False)  #文章标题,nullable=false是这个字段在保存时必需有值
+    shorttitle=db.Column(db.String(255),nullable=True) #短标题可以为空
+    source = db.Column(db.String(64), nullable=False)  #文章来源
+    keywords=db.Column(db.String(64),nullable=False) #关键字不能为空
+    description = db.Column(db.String(512), nullable=False)  #文章摘要
+    body = db.Column(db.Text, nullable=False)  #文章内容
+    clicks = db.Column(db.Integer, default=0)  #浏览量
     picture = db.Column(db.String(255))  # 文章列表图片路径
-    author_id = db.Column(db.Integer, db.ForeignKey("users.uid"))  # 当前文章的作者id
-    allowcomments=db.Column(db.Integer,default=0)#是否允许评论
-    status = db.Column(db.Integer, default=0)  # 当前文章状态 如果为0代表审核通过，1代表审核中，-1代表审核不通过
-    create_time=db.Column(db.DateTime,default=datetime.now)#文章添加时间
-    is_delete=db.Column(db.Boolean,default=0)#删除标志
+    author_id = db.Column(db.Integer, db.ForeignKey("users.uid"))  #当前文章的作者id
+    allowcomments=db.Column(db.Integer,default=0) #是否允许评论
+    status = db.Column(db.Integer, default=0)  #当前文章状态 如果为0代表审核通过，1代表审核中，-1代表审核不通过
+    create_time=db.Column(db.DateTime,default=datetime.now) #文章添加时间
+    is_delete=db.Column(db.Boolean,default=0) #删除标志
     flag=db.Column(db.Boolean,default=0)
     tags = db.relationship('Articles_Tag', secondary=article_tag, backref=db.backref('articles'))
     __table_args__ = {

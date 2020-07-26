@@ -1,0 +1,100 @@
+ <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>用户登录</title>
+    <!-- 新 Bootstrap 核心 CSS 文件 -->
+<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="http://sandbox.runjs.cn/uploads/rs/238/n8vhm36h/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="http://sandbox.runjs.cn/uploads/rs/238/n8vhm36h/bootstrap-responsiv.css">
+    <link rel="stylesheet" type="text/css" href="http://sandbox.runjs.cn/uploads/rs/238/n8vhm36h/dataTables.bootstra.css">
+
+    <link rel="stylesheet" href="{{url_for('static',filename='static/h-ui.admin/css/public.css')}}">
+<!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+　<script type="text/javascript" src="{{url_for('static',filename='lib/jquery/1.9.1/jquery.min.js')}}"></script>
+<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+<script src="http://cdn.bootcss.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{{url_for('static',filename='layer/layer.js')}}"></script>
+
+
+            <div style="height:10px;clear:both;display:block"></div> <style type="text/css">
+        .form_div{
+            width: 100%;
+            margin-left: 0px;
+            padding: 10px 20px;
+
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+  $("#do_search").click(function(){
+   var key=$("#searchString").val();
+   location.href="{{url_for('admin.search_list')}}?p=1&key=" +key;
+  });
+});
+</script>
+
+<div class="container">
+
+
+
+
+    <!-- 搜索区域  -->
+      <div class="row" style="padding-bottom: 20px;margin-top:20px;">
+        <!-- 搜索框的长度为该行的3/4  -->
+        <div class="col-md-9">
+         <div class="input-group">
+             <input id="searchString" type="text" style="height:28px;" value="" class="form-control" placeholder="请输入关键字">
+             <span class="input-group-btn">
+          　　                <button type="button" id="do_search" class="btn btn-info" onclick="search()" onkeypress="Enter()">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"/>
+                        搜索
+                    </button>
+               </span>
+        </div>
+       </div>
+    </div>
+
+    <!-- 表格显示 -->
+     <div class="row">
+        <div class="col-md-12" style="margin-top:20px;">
+            <div class="panel panel-info">
+                <div class="panel-heading"> {% for dic in datas.dic_list %}
+           {% if dic==datas.p%}
+             <li class="active"><a href="/user/user_list?p={{dic}}">{{dic.title}}</a></li>
+           {%else%}
+               <li><a href="/user/user_list?p={{dic}}">{{dic.title}}</a></li>
+           {%endif%}
+        {%endfor%}
+</div>
+                  
+            </div>
+        </div>
+    </div>
+
+<div class="form_div">
+<ul class="pagination">
+       {% if datas.show_shouye_status==1%}
+           <li class=''><a href='/admin/search_list/?p=1&key={{key}}'>首页</a></li>
+           <li class=''><a href='/admin/search_list/?p={{datas.p-1}}&key={{key}} '>上一页</a></li>
+      {%endif%}
+
+       
+
+       {% if datas.p < datas.total%}
+            <li class=''><a href='/admin/search_list/?p={{datas.p+1}}&key={{key}}'>下一页</a></li>
+            <li class=''><a href='/admin/search_list/?p={{datas.total}}&key={{key}} '>尾页</a></li>
+       {%endif%}
+            与"{{key}}"有关的内容，共{{datas.total}}页,共{{datas.count}}条记录
+ </ul>
+</div>
+
+   
+    </div>
+</body>
+</html>

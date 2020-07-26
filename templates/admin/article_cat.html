@@ -91,8 +91,9 @@
     <label class="col-sm-2 control-label" >上级栏目 </label>
         <div class="col-sm-2">
             <select name="parent_id" id="parent_id" class="selectpicker show-tick form-control">
+                <option value="0">无</option>
                 {% if message %}
-                {{ message | safe }}
+                    {{ message | safe}}
                 {% endif %}
             </select>
         </div>
