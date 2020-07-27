@@ -30,10 +30,8 @@
         location.href="{{url_for('admin.search_list')}}?p=1&key=" +key;
   });
 </script>
-<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页 <span class="c-gray en">&gt;</span> 资讯管理 <span class="c-gray en">&gt;</span> 资讯列表 <a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a></nav>
 <div class="page-container">
 	<div class="text-c">
-		<button onclick="removeIframe()" class="btn btn-primary radius">关闭选项卡</button>
 		<input type="text" name="searchString" id="searchString" placeholder=" 资讯名称" style="width:550px" class="input-text">
 		<button name="do_search" id="do_search" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜资讯</button>
 	</div>
@@ -62,24 +60,25 @@
 					<td class="text-l">
 					<a href="../../article_details/{{ row.aid }}" target="_blank">{{ row.title }}</a>
 					</td>
-					<td>行业动态</td>
-					<td>H-ui</td>
+					<td>{{ cat_name}}</td>
+					<td>{{ row.source }}</td>
 					<td>{{ row.create_time }}</td>
 					<td>{{ row.clicks }}</td>
 					<td class="td-status">
 					{% if row.status==0 %}
-					<span class="label label-success radius">已发布</span>
+					    <span class="label label-success radius">已发布</span>
 					{% else %}
-					<span class="label label-defaunt radius">已下架</span>
+					    <span class="label label-defaunt radius">已下架</span>
 					{% endif %}
 					</td>
 					<td class="f-14 td-manage">
 					{% if row.status==0 %}
-					<a style="text-decoration:none" onClick="article_stop(this,'{{ row.aid }}')" href="javascript:;" title="下架"><i class="Hui-iconfont">&#xe6de;</i></a> 
+					    <a style="text-decoration:none" onClick="article_stop(this,'{{ row.aid }}')" href="javascript:;" title="下架"><i class="Hui-iconfont">&#xe6de;</i></a>
 					{% else %}
-					<a style="text-decoration:none" onClick="article_start(this,'{{ row.aid }}')" href="javascript:;" title="发布"><i class="Hui-iconfont">&#xe603;</i></a> 
+					    <a style="text-decoration:none" onClick="article_start(this,'{{ row.aid }}')" href="javascript:;" title="发布"><i class="Hui-iconfont">&#xe603;</i></a>
 					{% endif %}
-                        <a style="text-decoration:none" class="ml-5"  href="admin/article_edit/{{ row.aid }}" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a><a style="text-decoration:none" class="ml-5" onClick="article_del(this,'{{ row.aid }}')" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+                        <a style="text-decoration:none" class="ml-5"  href="admin/article_edit/{{ row.aid }}" title="编辑"><i class="Hui-iconfont">&#xe6df;</i></a><a style="text-decoration:none" class="ml-5" onClick="article_del(this,'{{ row.aid }}')" href="javascript:;" title="删除"><i class="Hui-iconfont">&#xe6e2;</i></a>
+                    </td>
 				</tr>
                  {% endfor %}
              {% endif %}
@@ -87,26 +86,27 @@
 		</table>
 		<!--_分页开始-->
 		<div class="dataTables_wrapper">
-	<div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">共 {{pagination.pages}} 页</div>
-		<div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">				
-		{% if pagination.has_prev %}
-		<a class="paginate_button previous disabled" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" id="DataTables_Table_0_previous" href='{{ url_for('admin.article_list')}}?page={{ pagination.prev_num }}' >上一页</a>		
-		{% else %}<a class="paginate_button next disabled" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" id="DataTables_Table_0_next" href='#'>首页</a>		
-		 {% endif %}
-		   {%for page in pagination.iter_pages(1,1,3,1)%}
-           <a href="{{ url_for('admin.article_list') }}?page={{ page }}">
-        {% if not i %}
-           <span class="paginate_button current" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0">{{ page }}</span>
-        {% else %}
-              <span class="paginate_button current" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0">{{ page }}</span>
-        {% endif %}
-            </a>
-        {%endfor%}
-		{% if pagination.has_next %}	
-		<a class="paginate_button next disabled" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" id="DataTables_Table_0_next" href='{{ url_for('admin.article_list')}}?page={{ pagination.next_num }}'>下一页</a>	
-        {% else %}		
-		<a class="paginate_button next disabled" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" id="DataTables_Table_0_next" href='#'>尾页</a>
-		   {% endif %}
+	        <div class="dataTables_info" id="DataTables_Table_0_info" role="status" aria-live="polite">共 {{pagination.pages}} 页</div>
+		    <div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate">
+		        {% if pagination.has_prev %}
+		            <a class="paginate_button previous disabled" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0" id="DataTables_Table_0_previous" href='{{ url_for('admin.article_list')}}?page={{ pagination.prev_num }}' >上一页</a>
+		        {% else %}
+                    <a class="paginate_button next disabled" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" id="DataTables_Table_0_next" href='#'>首页</a>
+		        {% endif %}
+		        {%for page in pagination.iter_pages(1,1,3,1)%}
+                    <a href="{{ url_for('admin.article_list') }}?page={{ page }}">
+                    {% if not i %}
+                        <span class="paginate_button current" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0">{{ page }}</span>
+                    {% else %}
+                        <span class="paginate_button current" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0">{{ page }}</span>
+                    {% endif %}
+                    </a>
+                {%endfor%}
+		        {% if pagination.has_next %}
+		            <a class="paginate_button next disabled" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" id="DataTables_Table_0_next" href='{{ url_for('admin.article_list')}}?page={{ pagination.next_num }}'>下一页</a>
+                {% else %}
+		            <a class="paginate_button next disabled" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0" id="DataTables_Table_0_next" href='#'>尾页</a>
+		        {% endif %}
 		    </div>
         </div>
 	</div>

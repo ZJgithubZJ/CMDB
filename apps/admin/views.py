@@ -359,9 +359,12 @@ def article_list():
         else:
             page = int(page)
         pagination = Articles.query.filter(Articles.is_delete == 0).order_by(Articles.aid.desc()).paginate(page,per_page,False)
-        new1 = pagination.items
-        print(new1)
-        return render_template('admin/article-list.html',pagination=pagination,news1=new1,rows=rows,total=total)
+        print(pagination.pages)
+        news1 = pagination.items
+        for i in news1:
+            result = Articles_Cat.query.filter(Articles_Cat.cat_id == i.cat_id).first()
+            cat_name = result.cat_name
+        return render_template('admin/article-list.html',pagination=pagination,news1=news1,rows=rows,total=total,cat_name=cat_name)
 
 #添加文章
 @bp.route('/article_add',methods=['GET','POST'])
@@ -398,8 +401,12 @@ def article_add():
                                 source=source,allowcomments=allowcomments,status=status,picture=picture,body=body)
             db.session.add(article1)
             db.session.commit()
+            page = 1
+            per_page = 3
             rows = Articles.query.filter(Articles.status == 0).all()
-            return render_template('admin/article-list.html',rows=rows)
+            pagination = Articles.query.filter(Articles.is_delete == 0).order_by(Articles.aid.desc()).paginate(page,per_page,False)
+            news1 = pagination.items
+            return render_template('admin/article-list.html',rows=rows,pagination=pagination)
         else:
             errors = form.errors
             return render_template('admin/article-add.html',errors=errors)

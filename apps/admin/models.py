@@ -65,7 +65,7 @@ article_tag = db.Table('article_tag',
 #定义文章开始
 class Articles(db.Model):
     __tablename__ = 'jq_article'
-    aid = db.Column(db.Integer,primary_key=True,autoincrement=True)  #分类ID
+    aid = db.Column(db.Integer,primary_key=True,autoincrement=True)  #文章ID
     cat_id = db.Column(db.Integer, db.ForeignKey("jq_article_category.cat_id"))  #分类ID
     title = db.Column(db.String(255), nullable=False)  #文章标题,nullable=false是这个字段在保存时必需有值
     shorttitle=db.Column(db.String(255),nullable=True) #短标题可以为空
