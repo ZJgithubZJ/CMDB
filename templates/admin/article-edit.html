@@ -28,14 +28,10 @@
 <script>DD_belatedPNG.fix('*');</script>
 <![endif]-->
 <!--/meta 作为公共模版分离出去-->
-
-<title>新增文章 - 资讯管理 - H-ui.admin v3.1</title>
 <meta name="keywords" content="H-ui.admin v3.1,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
 <meta name="description" content="H-ui.admin v3.1，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
 </head>
 <body>
-
-
 <script type="text/plain" id="j_ueditorupload" style="height:5px;display:none;" ></script>
     <script>
       //实例化编辑器
@@ -97,28 +93,22 @@
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>分类栏目：</label>
-			<div class="formControls col-xs-8 col-sm-9"> 
-			
-<span class="select-box">
-				<select name="cat_id" class="select" id="cat_id" >
-					{% if cat %}
-                       {{ cat| safe }}
-                    {% endif %}
-				</select>
-				</span> 
-				<script type="text/javascript" >
-	
-	
-	$(function(){
-//$("#cat_id option[value={{ article.cat_id| safe }}]").attr("selected", "selected");
-   $("#cat_id  option[value={{ article.cat_id| safe }}] ").attr("selected",true)              
-
-      });
-</script>
-				</div>
+			<div class="formControls col-xs-8 col-sm-9">
+                <span class="select-box">
+				    <select name="cat_id" class="select" id="cat_id" >
+					    {% if cat %}
+                            {{ cat| safe }}
+                        {% endif %}
+				    </select>
+				</span>
+                <script type="text/javascript" >
+	                $(function(){
+                    //$("#cat_id option[value={{ article.cat_id| safe }}]").attr("selected", "selected");
+                    $("#cat_id  option[value={{ article.cat_id| safe }}] ").attr("selected",true)
+                    });
+                </script>
+            </div>
 		</div>
-
-
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">关键词：</label>
 			<div class="formControls col-xs-8 col-sm-9">
@@ -129,7 +119,6 @@
 			<label class="form-label col-xs-4 col-sm-2">文章摘要：</label>
 			<div class="formControls col-xs-8 col-sm-9">
 				<textarea name="description" id="description" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" datatype="*10-100" dragonfly="true" nullmsg="备注不能为空！" onKeyUp="$.Huitextarealength(this,200)">{{ article.description| safe }}
-				
 				</textarea>
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/200</p>
 			</div>
@@ -155,8 +144,7 @@
 				</div>
 			</div>
 		</div>
-
-<div class="row cl">
+        <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">允许发布：</label>
 			<div class="formControls col-xs-8 col-sm-9 skin-minimal">
 				<div class="check-box">
@@ -166,7 +154,6 @@
 
 			</div>
 		</div>
-
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">缩略图：</label>
 			<div class="formControls col-xs-8 col-sm-9">
@@ -174,7 +161,6 @@
 					<div id="fileList" class="uploader-list"></div>
                     <input type="text" class="input-text" id="picture" name="picture" value="{{ article.picture| safe }}"/>
     <button type="button" onClick="upImage()">上传图片</button>
-
 				</div>
 			</div>
 		</div>
@@ -185,23 +171,21 @@
 				{{ article.body| safe }}
 				</script>
 				<script>
-    var ue = UE.getEditor("editor",{
-        'serverUrl': '/ueditor/upload/'
-    });
-   
-		//UE.getEditor('editor').addListener("ready", function () {
-// editor准备好之后才可以使用
-//UE.getEditor('editor').setContent('提示的文字');
-//});
-
-</script>
+                    var ue = UE.getEditor("editor",{
+                        'serverUrl': '/ueditor/upload/'
+                    });
+		        //UE.getEditor('editor').addListener("ready", function () {
+                // editor准备好之后才可以使用
+                //UE.getEditor('editor').setContent('提示的文字');
+                //});
+                </script>
 			</div>
 		</div>
 		<input type="hidden" id="article_id" name="article_id" value="{{ article.aid| safe }}"/>
 		<input type="hidden" id="author_id_new" name="author_id_new" value="{{ article.author_id| safe }}"/>
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
-				<input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+				<input type="hidden" name="csrf_token" value="{{ csrf_token }}" />
 				<button  class="btn btn-primary radius" type="submit"><i class="Hui-iconfont">&#xe632;</i> 保存并提交审核</button>
 				<button onClick="article_save();" class="btn btn-secondary radius" type="button"><i class="Hui-iconfont">&#xe632;</i> 保存草稿</button>
 				<button onClick="removeIframe();" class="btn btn-default radius" type="button">&nbsp;&nbsp;取消&nbsp;&nbsp;</button>

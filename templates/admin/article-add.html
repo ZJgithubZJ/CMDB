@@ -87,9 +87,9 @@
 			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>栏目分类：</label>
 			<div class="formControls col-xs-8 col-sm-9">
                 <span class="select-box">
-				    <select name="cat_id" class="select" id="cat_id" >
+				    <select name="cat_id" class="select" id="cat_id">
 					    {% if cat %}
-                            {{ cat| safe }}
+                            {{ cat | safe }}
                         {% endif %}
 	    			</select>
 				</span>
@@ -104,7 +104,7 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">文章摘要：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<textarea name="description" id="description" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" datatype="*10-100" dragonfly="true" nullmsg="备注不能为空！" onKeyUp="$.Huitextarealength(this,200)">
+				<textarea name="description" id="description" cols="" rows="" class="textarea"  placeholder="说点什么...最少输入10个字符" datatype="*10-100" dragonfly="true" nullmsg="备注不能为空！" onKeyUp="$.Huitextarealength(this,2)">
                 </textarea>
 				<p class="textarea-numberbar"><em class="textarea-length">0</em>/200</p>
 			</div>
@@ -112,7 +112,7 @@
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-2">文章作者：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="0" placeholder="" id="author_id" name="author_id">
+				<input type="text" class="input-text" value="默认" placeholder="" id="author_id" name="author_id">
 			</div>
 		</div>
 		<div class="row cl">

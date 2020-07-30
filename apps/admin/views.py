@@ -352,19 +352,20 @@ def article_list():
         #获取总记录
         total = db.session.query(func.count(Articles.aid)).filter(Articles.is_delete == 0).scalar()
         #print(total)
-        per_page = 3
+        per_page = 5
         page = request.args.get('page')
         if not page:
             page = 1
         else:
             page = int(page)
-        pagination = Articles.query.filter(Articles.is_delete == 0).order_by(Articles.aid.desc()).paginate(page,per_page,False)
-        print(pagination.pages)
+        pagination = Articles.query.filter(Articles.is_delete == 0).order_by(Articles.aid).paginate(page,per_page,False)
+        #print(pagination.pages)
         news1 = pagination.items
         for i in news1:
             result = Articles_Cat.query.filter(Articles_Cat.cat_id == i.cat_id).first()
-            cat_name = result.cat_name
-        return render_template('admin/article-list.html',pagination=pagination,news1=news1,rows=rows,total=total,cat_name=cat_name)
+            cat_names = result.cat_name
+            print(cat_names)
+        return render_template('admin/article-list.html',pagination=pagination,news1=news1,rows=rows,total=total,cat_names=cat_names)
 
 #添加文章
 @bp.route('/article_add',methods=['GET','POST'])
@@ -380,6 +381,7 @@ def article_add():
             list.append(data)
         data = build_tree(list,0,0)
         html = build_table(data,parent_title='顶级菜单')
+        #print(html)
         return render_template('admin/article-add.html',cat=html)
     else:
         form = Article(request.form)
@@ -389,7 +391,6 @@ def article_add():
             cat_id = request.form['cat_id']
             keywords = request.form['keywords']
             description = request.form['description']
-            #author_id = request.form['author_id']
             user_id = session.get(config.ADMIN_USER_ID)
             author_id = user_id
             source = request.form['source']
@@ -406,7 +407,7 @@ def article_add():
             rows = Articles.query.filter(Articles.status == 0).all()
             pagination = Articles.query.filter(Articles.is_delete == 0).order_by(Articles.aid.desc()).paginate(page,per_page,False)
             news1 = pagination.items
-            return render_template('admin/article-list.html',rows=rows,pagination=pagination)
+            return render_template('admin/article-list.html',rows=rows,pagination=pagination,news1=news1)
         else:
             errors = form.errors
             return render_template('admin/article-add.html',errors=errors)
@@ -443,28 +444,28 @@ def article_del():
 @bp.route('/article_edit/<id>',methods=['GET','POST'])
 def article_edit(id):
     if request.method == 'GET':
+        article = Articles.query.filter(Articles.aid == id).first()
         categories = Articles_Cat.query.all()
         list = []
         data = {}
         for cat in categories:
-            data = dict(cat_id = cat.cat_id,parent_id = cat.parent_id,cat_name = cat.cat_name)
+            data = dict(cat_id=cat.cat_id,cat_name=cat.cat_name,parent_id=cat.parent_id)
             list.append(data)
         data = build_tree(list,0,0)
         html = build_table(data,parent_title='顶级菜单')
-        article = Articles.query.filter(Articles.aid == id).first()
-        user = Users.query.filter(Users.uid == article.author_id).first()
+        user = Users.query.filter(Users.uid == Article.author_id).first()
         if user:
             username = user.username
         else:
             username = 'admin'
-        return render_template('admin/article-edit.html',article=article,cat=html,username=username)
+        return render_template('admin/article-edit.html',article=article,username=username,cat=html)
 
 #保存编辑后的文章
 @bp.route('/article_edit_save',methods=['POST'])
 def article_edit_save():
     errors = None
     if request.method == 'POST':
-        form = Articles(request.form)
+        form = Article(request.form)
         if form.validate():
             id = request.form['article_id']
             title = request.form['title']
