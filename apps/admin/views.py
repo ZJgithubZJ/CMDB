@@ -364,8 +364,8 @@ def article_list():
         for i in news1:
             result = Articles_Cat.query.filter(Articles_Cat.cat_id == i.cat_id).first()
             cat_names = result.cat_name
-            print(cat_names)
-        return render_template('admin/article-list.html',pagination=pagination,news1=news1,rows=rows,total=total,cat_names=cat_names)
+            #print(cat_names)
+        return render_template('admin/article-list.html',pagination=pagination,news1=news1,rows=rows,total=total)
 
 #添加文章
 @bp.route('/article_add',methods=['GET','POST'])
@@ -412,36 +412,8 @@ def article_add():
             errors = form.errors
             return render_template('admin/article-add.html',errors=errors)
 
-#删除某条文章
-@bp.route('/article_all_del',methods=['GET','POST'])
-def article_all_del():
-    if request.method == 'POST':
-        id = request.values.get('aid')
-        articles = db.session.query(Articles).filter(Articles.aid.in_(id)).all()
-        for art in articles:
-            art.is_delete = 1
-            db.session.commit()
-        data = {
-            'msg': '保存成功',
-            'success': 1
-        }
-    return jsonify(data)
-
-#批量删除文章
-@bp.route('/article_del',methods=['GET','POST'])
-def article_del():
-    if request.method == 'POST':
-        id = request.values.get('aid')
-        db.session.query(Articles).filter(Articles.aid == id).update({Articles.is_delete: 1})
-        db.session.commit()
-        data = {
-            "msg": "保存成功",
-            'success': 1
-        }
-    return jsonify(data)
-
 #修改文章
-@bp.route('/article_edit/<id>',methods=['GET','POST'])
+@bp.route('/article_edit/<id>',methods=['GET'])
 def article_edit(id):
     if request.method == 'GET':
         article = Articles.query.filter(Articles.aid == id).first()
@@ -453,7 +425,7 @@ def article_edit(id):
             list.append(data)
         data = build_tree(list,0,0)
         html = build_table(data,parent_title='顶级菜单')
-        user = Users.query.filter(Users.uid == Article.author_id).first()
+        user = Users.query.filter(Users.uid == article.author_id).first()
         if user:
             username = user.username
         else:
@@ -463,7 +435,6 @@ def article_edit(id):
 #保存编辑后的文章
 @bp.route('/article_edit_save',methods=['POST'])
 def article_edit_save():
-    errors = None
     if request.method == 'POST':
         form = Article(request.form)
         if form.validate():
@@ -476,20 +447,48 @@ def article_edit_save():
             author_id = request.form['author_id_new']
             source = request.form['source']
             allowcomments = request.form['allowcomments']
-            status = request.form.get('status')
+            status = request.form['status']
             picture = request.form['picture']
             body = request.form['editorValue']
             Articles.query.filter(Articles.aid == id).update(
                 {Articles.title:title, Articles.shorttitle:shorttitle, Articles.cat_id:cat_id, Articles.keywords:keywords, Articles.description:description,\
                  Articles.author_id:author_id, Articles.source:source, Articles.allowcomments:allowcomments, Articles.status:status, Articles.picture:picture,\
-                 Articles.body:body
-                 })
+                 Articles.body:body}
+            )
             db.session.commit()
             return redirect(url_for('admin.article_list'))
         else:
             flash(form.errors,'error')
             id = request.form['article_id']
             return redirect(url_for('admin.article_edit',id))
+
+#删除单条文章
+@bp.route('/article_del',methods=['POST'])
+def article_del():
+    if request.method == 'POST':
+        id = request.values.get('aid')
+        db.session.query(Articles).filter(Articles.aid == id).update({Articles.is_delete: 1})
+        db.session.commit()
+        data = {
+            'mes': '保存成功',
+            'success': 1
+        }
+    return jsonify(data)
+
+#批量删除文章
+@bp.route('/article_all_del',methods=['POST','GET'])
+def article_all_del():
+    if request.method == 'POST':
+        id = request.values.get('aid')
+        articles = db.session.query(Articles).filter(Articles.aid.in_(id)).all()
+        for art in articles:
+            art.is_delete = 1
+            db.session.commit()
+        data = {
+            'mes': "保存成功",
+            'success': 1
+        }
+    return jsonify(data)
 
 #搜索处理
 @bp.route('/search_list',methods=['GET','POST'])
@@ -558,12 +557,6 @@ def after_request(response):
     response.set_cookie("csrf_token",csrf_token)
     return response
 
-
-
-
-
-
-
-
-
-
+@bp.route('/test',methods=['GET'])
+def test():
+    return render_template('admin/test.html')

@@ -2,9 +2,35 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>test</title>
+    <title>select下拉框</title>
+    <link rel="stylesheet" href="../../static/static/h-ui.admin/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="../../static/lib/jquery/jquery-3.1.0.min.js"></script>
 </head>
 <body>
-<h3>test-run</h3>
+<div class="container" style="width: 520px">
+    <h2>复选框</h2>
+    <form action="#" method="get">
+        <input name="Fruit" type="checkbox" value="1">游泳
+        <input name="Fruit" type="checkbox" value="2">唱歌
+        <input name="Fruit" type="checkbox" value="3">跑步
+        <input name="Fruit" type="checkbox" value="4">装逼
+    </form>
+    <a title="提交" href="javascript:;" onclick="dianji()" style="text-decoration: none"><i class="Hui-iconfont">&#xe6df;获取提交参数</i></a>
+</div>
+<script>
+    function dianji() {
+        var params = '';
+        $("input[name=Fruit]:checked").each(function (index) {
+            if (index == 0){
+                params += '' + $(this).val();
+            }
+            else {
+                params += ',' + $(this).val();
+            }
+        });
+        alert("生成的拼接参数：" + params);
+    }
+</script>
 </body>
 </html>

@@ -35,7 +35,13 @@
 		<input type="text" name="searchString" id="searchString" placeholder=" 资讯名称" style="width:550px" class="input-text">
 		<button name="do_search" id="do_search" class="btn btn-success" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜资讯</button>
 	</div>
-	<div class="cl pd-5 bg-1 bk-gray mt-20"> <span class="l"><a href="" id="delAll" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> <a class="btn btn-primary radius" data-title="添加资讯" data-href="{{ url_for('admin.article_add') }}" onclick="Hui_admin_tab(this)" href="{{ url_for('admin.article_add') }}"><i class="Hui-iconfont">&#xe600;</i> 添加资讯</a></span> <span class="r">共有数据：<strong>{{ total }}</strong> 条</span> </div>
+	<div class="cl pd-5 bg-1 bk-gray mt-20">
+        <span class="l">
+            <a href="" id="delAll" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
+            <a class="btn btn-primary radius" data-title="添加资讯" data-href="{{ url_for('admin.article_add') }}" onclick="Hui_admin_tab(this)" href="{{ url_for('admin.article_add') }}"><i class="Hui-iconfont">&#xe600;</i> 添加资讯</a>
+        </span>
+        <span class="r">共有数据：<strong>{{ total }}</strong> 条</span>
+    </div>
 	<div class="mt-20">
 		<table class="table table-border table-bordered table-bg table-hover table-sort table-responsive">
 			<thead>
@@ -60,11 +66,7 @@
 					<td class="text-l">
 					<a href="../../article_details/{{ row.aid }}" target="_blank">{{ row.title }}</a>
 					</td>
-					<td>
-                        {% for cat_name in cat_names %}
-                            {{ cat_name }}
-                        {% endfor %}
-                    </td>
+					<td>lalala</td>
 					<td>{{ row.source }}</td>
 					<td>{{ row.create_time }}</td>
 					<td>{{ row.clicks }}</td>
@@ -164,11 +166,8 @@ function article_del(obj,id){
 			url: '..{{ url_for('admin.article_del') }}',
 			data : {　　　　　　　　　　　      
 　　　　　　　　aid : id
-               　
 　　　　　　},
-
 			success: function(data){
-
 				layer.msg('已删除!',{icon:1,time:1000});
 				window.location.href=window.location.href;
 			},
@@ -218,20 +217,16 @@ function article_stop(obj,id){
 			 if(data==''){
                     alert("数据为空");
                 }else{
-                  	
 		layer.msg('已下架!',{icon: 5,time:1000});	
 window.location.href=window.location.href; 		
                 }
-
-
 			},
 			error:function(data) {
-				console.log(data.msg);				 
+				console.log(data.msg);
 				alert(data);
 			},
 		});
 		//提交到服务器结束
-
 	});
 }
 
@@ -244,9 +239,7 @@ function article_start(obj,id){
 			url: '..{{ url_for('admin.article_start') }}',
 			data : {　　　　　　　　　　　      
 　　　　　　　　aid : id
-               　  
 　　　　　　},
-						
 			success: function(data){
 			 if(data==''){
                     alert("数据为空");
@@ -292,7 +285,7 @@ function article_shenqing(obj,id){
         $(this).val();
       }
      });//拼接参数完成
-     //alert("生成的拼接参数：" + params);	
+     //alert("生成的拼接参数：" + params);
 		$.ajax({
 			type: 'POST',
 			url: '..{{ url_for('admin.article_all_del') }}',
@@ -302,10 +295,9 @@ function article_shenqing(obj,id){
 			success: function(data){
            $("input[name=smallBox]:checked").each(function () {
                         $(this).parents('tr').remove();
-                    });		
-                window.location.href=window.location.href; 					
+                    });
+                window.location.href=window.location.href;
 				layer.msg('已删除!',{icon:1,time:1000});
-				
 			},
 			error:function(data) {
 				console.log(data.msg);
@@ -313,8 +305,8 @@ function article_shenqing(obj,id){
 				 alert(data);
 			},
 		});
-	 }//else完毕
-})
-</script> 
+		}//else完毕
+    })
+</script>
 </body>
 </html>
